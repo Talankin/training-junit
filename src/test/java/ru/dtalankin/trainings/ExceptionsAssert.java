@@ -4,9 +4,9 @@
 
 package ru.dtalankin.trainings;
 
-import org.testng.asserts.IAssert;
 
-abstract class ExceptionsAssert implements IAssert {
+//abstract class ExceptionsAssert implements IAssert {
+abstract class ExceptionsAssert {
     private final String message;
 
     public ExceptionsAssert (String message) {

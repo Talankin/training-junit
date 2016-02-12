@@ -5,9 +5,10 @@
 package ru.dtalankin.trainings;
 
 import org.apache.commons.io.FileUtils;
-import org.testng.Assert;
-import org.testng.AssertJUnit;
-import org.testng.annotations.*;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,77 +18,44 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@Test
-public class FileTest {
-    private Path tmpDir = null;
-    private File subDir = null;
-    private String notExistingDir = "qwerty";
+public class FileTest extends FileFixture {
 
-    @BeforeClass(groups = {"positive","negative"}, alwaysRun = true)
-    public void createTmpDirTest() throws IOException {
-        tmpDir = Files.createTempDirectory("tmpDir");
-        subDir = new File(tmpDir.toFile(), "subdir");
-        subDir.mkdir();
-    }
-
-    @AfterClass(groups = {"positive","negative"}, alwaysRun = true)
-    public void deleteTmpDirTest(){
-        FileUtils.deleteQuietly(tmpDir.toFile());
-    }
-
-    @Test(groups = "positive", alwaysRun = true)
-    @Parameters({"subPath","fileName"})
-    public void filePositiveTest1(String subPath, String fileName) throws IOException {
-        File fullPath = new File(tmpDir.toFile(), subPath);
-        fullPath.mkdir();
-        File file = new File(fullPath, fileName);
+    @Test
+    public void filePositiveTest1() throws IOException {
+        File file = new File(tmpDir.toFile(), "file1.txt");
         file.createNewFile();
-        Assert.assertTrue(file.exists(), "File1 is not created");
+//        Assert.assertTrue(file.exists(), "File1 is not created");
     }
 
-    @Test(groups = "positive", alwaysRun = true,
-            dataProviderClass = DataProviders.class, dataProvider = "loadFileNameFromFile")
-    public void filePositiveTest2(String fileName) throws IOException {
-        File file = new File(subDir, fileName);
+    @Test
+    public void filePositiveTest2() throws IOException {
+        File file = new File(subDir, "file2.txt");
         file.createNewFile();
-        Assert.assertTrue(file.exists(), "File2 is not created");
+//        Assert.assertTrue(file.exists(), "File2 is not created");
     }
 
-    @Test(groups = "positive", alwaysRun = true, dataProvider = "fileNameGenerator")
-    public void filePositiveTest3(String fileName) throws IOException {
-        File file = new File(subDir, fileName);
+    @Test
+    public void filePositiveTest3() throws IOException {
+        File file = new File(subDir, "file3.txt");
         file.createNewFile();
-        AssertJUnit.assertTrue("File4 does not exist", file.exists());
+//        AssertJUnit.assertTrue("File4 does not exist", file.exists());
     }
 
-    @Test(groups = "negative", alwaysRun = true)
+    @Test
     public void fileNegativeTest4() throws IOException {
-        File file = new File(tmpDir.toFile(), "file3.txt");
+        File file = new File(tmpDir.toFile(), "file4.txt");
         file.createNewFile();
-        AssertJUnit.assertFalse("File3 created", file.createNewFile());
+        file.createNewFile();
+//        AssertJUnit.assertFalse("File3 created", file.createNewFile());
     }
 
-    @Test(groups = "negative", alwaysRun = true)
+    @Test
     public void fileNegativeTest5() throws IOException {
         File notExistingPath = new File(subDir, notExistingDir);
-        File file = new File(notExistingPath, "file4.txt");
-        AssertionForExceptions verify = new AssertionForExceptions();
-        verify.assertExpectedException(file);
-    }
-
-    @DataProvider
-    public Iterator<Object[]> fileNameGenerator() {
-        List<Object[]> filesList = new ArrayList<Object[]>();
-        for(int i=0; i<5; i++) {
-            filesList.add(new Object[]{
-                    generateRandomFileName()
-            });
-        }
-        return filesList.iterator();
-    }
-
-    private Object generateRandomFileName() {
-        return "file" + (int)(Math.random()*100000) + ".txt";
+        File file = new File(notExistingPath, "file5.txt");
+        file.createNewFile();
+//        AssertionForExceptions verify = new AssertionForExceptions();
+//        verify.assertExpectedException(file);
     }
 
 }
