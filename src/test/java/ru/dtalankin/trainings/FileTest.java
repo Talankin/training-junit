@@ -7,6 +7,10 @@ package ru.dtalankin.trainings;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import ru.dtalankin.trainings.categories.BrokenTests;
+import ru.dtalankin.trainings.categories.NegativeTests;
+import ru.dtalankin.trainings.categories.PositiveTests;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +21,7 @@ public class FileTest extends FileFixture {
     // TODO running with config (look at the 4th practice)
 
     @Test
+    @Category(PositiveTests.class)
     public void filePositiveTest1() throws IOException {
         String subPath = "subPath";
         File fullPath = new File(tmpDir.toFile(), subPath);
@@ -27,6 +32,7 @@ public class FileTest extends FileFixture {
     }
 
     @Test
+    @Category(PositiveTests.class)
     public void filePositiveTest2() throws IOException {
         File file = new File(subDir, "file2.txt");
         file.createNewFile();
@@ -34,6 +40,7 @@ public class FileTest extends FileFixture {
     }
 
     @Test
+    @Category({BrokenTests.class})
     public void filePositiveTest3() throws IOException {
         File file = new File(subDir, "file3.txt");
         file.createNewFile();
@@ -41,18 +48,29 @@ public class FileTest extends FileFixture {
     }
 
     @Test
+    @Category({NegativeTests.class})
     public void fileNegativeTest4() throws IOException {
         File file = new File(tmpDir.toFile(), "file4.txt");
         file.createNewFile();
         file.createNewFile();
-        Assert.assertFalse("File3 created", file.createNewFile());
+        Assert.assertFalse("File4 created", file.createNewFile());
     }
 
     @Test
-    @Ignore("fileNegativeTest5 is in develop yet")
+    @Category({NegativeTests.class})
     public void fileNegativeTest5() throws IOException {
         File notExistingPath = new File(subDir, notExistingDir);
         File file = new File(notExistingPath, "file5.txt");
+        file.createNewFile();
+        Assert.assertTrue("File5 does not exist", file.exists());
+    }
+
+    @Test
+    @Ignore("fileNegativeTest6 is in develop yet")
+    @Category({NegativeTests.class})
+    public void fileNegativeTest6() throws IOException {
+        File notExistingPath = new File(subDir, notExistingDir);
+        File file = new File(notExistingPath, "file6.txt");
         file.createNewFile();
         Assert.assertTrue("File5 does not exist", file.exists());
     }
