@@ -20,6 +20,7 @@ public class FileFixture {
 
     @BeforeClass
     public static void createTmpDirTest() throws IOException {
+        System.out.println("SetUp Fixture");
         tmpDir = Files.createTempDirectory("tmpDir");
         subDir = new File(tmpDir.toFile(), "subdir");
         subDir.mkdir();
@@ -27,6 +28,7 @@ public class FileFixture {
 
     @AfterClass
     public static void deleteTmpDirTest(){
+        System.out.println("TearDown Fixture");
         FileUtils.deleteQuietly(tmpDir.toFile());
     }
 

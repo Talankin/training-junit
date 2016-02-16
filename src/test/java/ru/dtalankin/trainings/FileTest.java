@@ -17,12 +17,12 @@ import java.io.IOException;
 
 public class FileTest extends FileFixture {
 
-    // TODO test grouping. Lesson 2.3
     // TODO running with config (look at the 4th practice)
 
     @Test
     @Category(PositiveTests.class)
     public void filePositiveTest1() throws IOException {
+        System.out.println("PositiveTest1");
         String subPath = "subPath";
         File fullPath = new File(tmpDir.toFile(), subPath);
         fullPath.mkdir();
@@ -34,6 +34,7 @@ public class FileTest extends FileFixture {
     @Test
     @Category(PositiveTests.class)
     public void filePositiveTest2() throws IOException {
+        System.out.println("PositiveTest2");
         File file = new File(subDir, "file2.txt");
         file.createNewFile();
         Assert.assertTrue("File2 is not created", file.exists());
@@ -42,6 +43,7 @@ public class FileTest extends FileFixture {
     @Test
     @Category({BrokenTests.class})
     public void filePositiveTest3() throws IOException {
+        System.out.println("BrokenTest3");
         File file = new File(subDir, "file3.txt");
         file.createNewFile();
         Assert.assertTrue("File4 does not exist", file.exists());
@@ -50,6 +52,7 @@ public class FileTest extends FileFixture {
     @Test
     @Category({NegativeTests.class})
     public void fileNegativeTest4() throws IOException {
+        System.out.println("NegativeTest4");
         File file = new File(tmpDir.toFile(), "file4.txt");
         file.createNewFile();
         file.createNewFile();
@@ -59,6 +62,7 @@ public class FileTest extends FileFixture {
     @Test
     @Category({NegativeTests.class})
     public void fileNegativeTest5() throws IOException {
+        System.out.println("NegativeTest5");
         File notExistingPath = new File(subDir, notExistingDir);
         File file = new File(notExistingPath, "file5.txt");
         file.createNewFile();
@@ -69,6 +73,7 @@ public class FileTest extends FileFixture {
     @Ignore("fileNegativeTest6 is in develop yet")
     @Category({NegativeTests.class})
     public void fileNegativeTest6() throws IOException {
+        System.out.println("NegativeTest6");
         File notExistingPath = new File(subDir, notExistingDir);
         File file = new File(notExistingPath, "file6.txt");
         file.createNewFile();

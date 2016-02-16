@@ -19,6 +19,7 @@ public class StringTest {
     @Category(PositiveTests.class)
     public void test1 ()
     {
+        System.out.println("PositiveStringTest1");
         Assert.assertThat(str1, is("qwerty"));
     }
 
@@ -26,6 +27,7 @@ public class StringTest {
     @Category(PositiveTests.class)
     public void test2 ()
     {
+        System.out.println("PositiveStringTest2");
         Assert.assertThat(str1, endsWith("ty"));
     }
 
