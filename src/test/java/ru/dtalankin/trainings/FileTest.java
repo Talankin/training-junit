@@ -5,9 +5,11 @@
 package ru.dtalankin.trainings;
 
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runners.MethodSorters;
 import ru.dtalankin.trainings.categories.BrokenTests;
 import ru.dtalankin.trainings.categories.NegativeTests;
 import ru.dtalankin.trainings.categories.PositiveTests;
@@ -15,10 +17,8 @@ import ru.dtalankin.trainings.categories.PositiveTests;
 import java.io.File;
 import java.io.IOException;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FileTest extends FileFixture {
-
-    // TODO running with config (look at the 4th practice)
-
     @Test
     @Category(PositiveTests.class)
     public void filePositiveTest1() throws IOException {
