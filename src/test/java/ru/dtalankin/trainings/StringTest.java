@@ -21,12 +21,7 @@ public class StringTest extends StringTestFixture {
     public void test1()
     {
         System.out.println("PositiveStringTest1");
-//        Assert.assertThat(str1, is("qwerty"));
-        if(attempt == 2) {
-            attempt = 1;
-        } else {
-            Assert.fail("test1 Failed on " + (attempt++) + " attempt");
-        }
+        Assert.assertThat(str1, is("qwerty"));
     }
 
     @Test
@@ -38,13 +33,13 @@ public class StringTest extends StringTestFixture {
     }
 
     @Test
-    @Unstable
+    @Unstable(4)
     public void unstableTest3() {
-        System.out.println("UnstableStringTest3");
-        if(attempt == 2) {
-            attempt = 1;
+        if(attempt == 3) {
+            System.out.println("UnstableStringTest3");
         } else {
-            Assert.fail("unstableTest3 Failed on " + (attempt++) + " attempt");
+            attempt++;
+            Assert.fail();
         }
     }
 

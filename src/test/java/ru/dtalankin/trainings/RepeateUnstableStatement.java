@@ -4,6 +4,7 @@
 
 package ru.dtalankin.trainings;
 
+import org.junit.Assert;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
@@ -19,11 +20,16 @@ public class RepeateUnstableStatement extends Statement {
 
     @Override
     public void evaluate() throws Throwable {
-        try {
-            base.evaluate();
-        } catch (Throwable t) {
-            System.out.println("Failed on first attempt: " + desc);
-            base.evaluate();
+        int allowedAttempts = AnnotationUnstableRule.annotationValue;
+        for (int i=0; i<allowedAttempts; i++) {
+            try {
+                base.evaluate();
+                break;
+            } catch (Throwable t) {
+                System.out.println("Failed on " + (i+1) + " attempt: " + desc);
+                if (i == allowedAttempts-1) Assert.fail();
+            }
         }
+
     }
 }
