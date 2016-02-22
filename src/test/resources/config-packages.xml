@@ -1,9 +1,0 @@
-
-
-<suite name="Suite1" verbose="1" >
-    <test name="Test1">
-        <packages>
-            <package name="ru.dtalankin.trainings" />
-        </packages>
-    </test>
-</suite>

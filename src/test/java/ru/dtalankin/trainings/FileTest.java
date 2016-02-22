@@ -18,12 +18,18 @@ import ru.dtalankin.trainings.categories.BrokenTests;
 import ru.dtalankin.trainings.categories.NegativeTests;
 import ru.dtalankin.trainings.categories.PositiveTests;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(DataProviderRunner.class)
 public class FileTest extends FileFixture {
+    private final static String DATA_FILE = "/files.data";
+
     @DataProvider
     public static Object[][] paths() {
         return new Object[][] {
@@ -46,20 +52,22 @@ public class FileTest extends FileFixture {
 
     @Test
     @Category(PositiveTests.class)
-    public void filePositiveTest2() throws IOException {
+    @UseDataProvider("loadFileNameFromFile")
+    public void filePositiveTest2(String fileName) throws IOException {
         System.out.println("PositiveTest2");
-        File file = new File(subDir, "file2.txt");
+        File file = new File(subDir, fileName);
         file.createNewFile();
         Assert.assertTrue("File2 is not created", file.exists());
     }
 
     @Test
     @Category({BrokenTests.class})
-    public void filePositiveTest3() throws IOException {
+    @UseDataProvider("fileNameGenerator")
+    public void filePositiveTest3(String fileName) throws IOException {
         System.out.println("PositiveTest3 - BrokenTest");
-        File file = new File(subDir, "file3.txt");
+        File file = new File(subDir, fileName);
         file.createNewFile();
-        Assert.assertTrue("File4 does not exist", file.exists());
+        Assert.assertTrue("File3 does not exist", file.exists());
     }
 
     @Test
@@ -93,4 +101,34 @@ public class FileTest extends FileFixture {
         Assert.assertTrue("File5 does not exist", file.exists());
     }
 
+    @DataProvider
+    public static Object[][] fileNameGenerator() {
+        List<Object[]> filesList = new ArrayList<Object[]>();
+        for(int i=0; i<5; i++) {
+            filesList.add(new Object[]{
+                    generateRandomFileName()
+            });
+        }
+        return (Object[][])filesList.toArray(new Object[][]{});
+    }
+
+    private static Object generateRandomFileName() {
+        return "file" + (int)(Math.random()*100000) + ".txt";
+    }
+
+    @DataProvider
+    public  static Object[][] loadFileNameFromFile() throws IOException {
+        BufferedReader dataFile = new BufferedReader(new InputStreamReader(
+                FileTest.class.getResourceAsStream(DATA_FILE)));
+
+        List<Object[]> filesList = new ArrayList<Object[]>();
+        String line = dataFile.readLine();
+        while (line!=null) {
+            filesList.add(line.split(";"));
+            line = dataFile.readLine();
+        }
+        dataFile.close();
+
+        return (Object[][])filesList.toArray(new Object[][]{});
+    }
 }
