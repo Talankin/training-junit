@@ -17,11 +17,10 @@ import org.junit.runners.MethodSorters;
 import ru.dtalankin.trainings.categories.BrokenTests;
 import ru.dtalankin.trainings.categories.NegativeTests;
 import ru.dtalankin.trainings.categories.PositiveTests;
+import static ru.dtalankin.trainings.DataSource.Type.*;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,8 @@ public class FileTest extends FileFixture {
 
     @Test
     @Category(PositiveTests.class)
-    @UseDataProvider("loadFileNameFromFile")
+    @UseDataProvider(value = "dataSourceLoader", location = UniversalDataProvider.class)
+    @DataSource(value = DATA_FILE, type = RESOURCE)
     public void filePositiveTest2(String fileName) throws IOException {
         System.out.println("PositiveTest2");
         File file = new File(subDir, fileName);
@@ -116,19 +116,4 @@ public class FileTest extends FileFixture {
         return "file" + (int)(Math.random()*100000) + ".txt";
     }
 
-    @DataProvider
-    public  static Object[][] loadFileNameFromFile() throws IOException {
-        BufferedReader dataFile = new BufferedReader(new InputStreamReader(
-                FileTest.class.getResourceAsStream(DATA_FILE)));
-
-        List<Object[]> filesList = new ArrayList<Object[]>();
-        String line = dataFile.readLine();
-        while (line!=null) {
-            filesList.add(line.split(";"));
-            line = dataFile.readLine();
-        }
-        dataFile.close();
-
-        return (Object[][])filesList.toArray(new Object[][]{});
-    }
 }
